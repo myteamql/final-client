@@ -15,6 +15,7 @@ export default {
     message: ""
   }),
   methods: {
+
     getMessages() {
       axios
               .get("http://localhost:8080/test")
