@@ -3,3 +3,5 @@ node_modules
 *.xml
 *.iml
 .ida
+.idea
+.idea/workspace.xml
