@@ -142,7 +142,7 @@ class PersistentDrawerLeft extends React.Component {
                         ))}
                         
                     </List>
-                    
+
                 </Drawer>
                 <main
                     className={classNames(classes.content, {

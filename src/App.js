@@ -3,6 +3,7 @@ import logo from './logo.svg';
 import './App.css';
 import axios from 'axios';
 import PersistentDrawerLeft from './PersistentDrawerLeft.js';
+import SimpleTable from './SimpleTable.js';
 
 export default class App extends React.Component {
   constructor(props, context) {
@@ -37,6 +38,7 @@ export default class App extends React.Component {
     return (
       <div className="App">
           <PersistentDrawerLeft/>
+          <SimpleTable/>
 
       </div>
     );
