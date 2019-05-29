@@ -1,16 +1,15 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
 import axios from 'axios';
 import PersistentDrawerLeft from './PersistentDrawerLeft.js';
-import SimpleTable from './SimpleTable.js';
+import BookRoom from './BookRoom';
 
 export default class App extends React.Component {
   constructor(props, context) {
-    super(props, context)
+    super(props, context);
     this.state = {
       message: ''
-    }
+    };
 
     this.getMessages = this.getMessages.bind(this)
   }
@@ -31,15 +30,11 @@ export default class App extends React.Component {
     this.getMessages();
   }
   render () {
-    var mess = this.state.message;
-
-
 
     return (
       <div className="App">
           <PersistentDrawerLeft/>
-          <SimpleTable/>
-
+          <BookRoom/>
       </div>
     );
   }
