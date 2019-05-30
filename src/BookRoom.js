@@ -9,6 +9,8 @@ import TextField from '@material-ui/core/TextField';
 import Slider, { Range } from 'rc-slider';
 import 'rc-slider/assets/index.css';
 import axios from "axios";
+import Button from '@material-ui/core/Button';
+import Grid from '@material-ui/core/Grid';
 
 export default class BookRoom extends React.Component {
     constructor(props, context) {
@@ -107,9 +109,12 @@ export default class BookRoom extends React.Component {
     render ()
     {
         const { sliderValues } = this.state;
+
         console.log(this.state.rooms)
         return (
             <div>
+                <Grid container spacing={8} justify="center" direction={"row"}>
+                    <Grid item>
                 <form noValidate>
                     <TextField
                         id="date"
@@ -122,6 +127,8 @@ export default class BookRoom extends React.Component {
                         }}
                     />
                 </form>
+                    </Grid>
+                    <Grid item>
                 <form noValidate>
                     <TextField
                         id="date"
@@ -134,6 +141,8 @@ export default class BookRoom extends React.Component {
                         }}
                     />
                 </form>
+                    </Grid>
+                    <Grid item>
                 <form autoComplete="off">
                     <FormControl>
                         <InputLabel htmlFor="type-helper">Type</InputLabel>
@@ -153,6 +162,8 @@ export default class BookRoom extends React.Component {
                         <FormHelperText>Bed type</FormHelperText>
                     </FormControl>
                 </form>
+                    </Grid>
+                    <Grid item>
                 <form autoComplete="off">
                     <FormControl>
                         <InputLabel htmlFor="decor-helper">Decor</InputLabel>
@@ -173,6 +184,10 @@ export default class BookRoom extends React.Component {
                         </Select>
                         <FormHelperText>Room decor</FormHelperText>
                     </FormControl>
+                </form>
+                    </Grid>
+                    <Grid item>
+                    <form autoComplete="off">
                         <FormControl>
                             <InputLabel htmlFor="occupants-helper">Occupants</InputLabel>
                             <Select
@@ -194,6 +209,10 @@ export default class BookRoom extends React.Component {
                         </FormControl>
 
                 </form>
+                    </Grid>
+
+                </Grid>
+
                     <div style={{ margin: 100 }}>
                         ${sliderValues[0]} - ${sliderValues[1]}
                         <Range
@@ -203,7 +222,12 @@ export default class BookRoom extends React.Component {
                             defaultValue={sliderValues}
                             tipFormatter={value => <span className="tooltip">{value}€</span>}
                         />
+
                     </div>
+                <Button variant="contained">
+                    All Rooms
+                </Button>
+
                 {this.state.rooms.map((room, index) =>
                     <li key={index}>
                         <p>{room.roomNumber}</p>
@@ -217,6 +241,7 @@ export default class BookRoom extends React.Component {
                         <p>{room.pictureurl}</p>
                     </li>
                 )}
+
             </div>
         );
     }
