@@ -36,10 +36,10 @@ export default class BookRoom extends React.Component {
     }
 
     getRooms() {
-        let inmonth = this.state.checkin.getMonth()+1;
-        let outmonth = this.state.checkout.getMonth()+1;
-        let checkin = this.state.checkin.getFullYear() + "-" + inmonth + "-" +this.state.checkin.getDate();
-        let checkout = this.state.checkout.getFullYear() + "-" + outmonth + "-" +this.state.checkout.getDate();
+        let inmonth = new Date(this.state.checkin).getMonth()+1;
+        let outmonth = new Date(this.state.checkout).getMonth()+1;
+        let checkin = new Date(this.state.checkin).getFullYear() + "-" + inmonth + "-" + new Date(this.state.checkin).getDate();
+        let checkout = new Date(this.state.checkout).getFullYear() + "-" + outmonth + "-" + new Date(this.state.checkout).getDate();
         let occupants = this.state.occupants;
         let type = this.state.type;
         let decor = this.state.decor;
@@ -58,43 +58,51 @@ export default class BookRoom extends React.Component {
                 this.$emit("success");
             })
             .catch(() => {
-            });
+            })
+
     }
 
     handleChange = sliderValues => {
-        this.setState({ sliderValues });
-        this.getRooms();
+        this.setState({ sliderValues }, () =>{
+            this.getRooms();
+        })
     };
     changeCheckin(event) {
         this.setState({
             checkin: event.target.value
+        }, () =>{
+            this.getRooms();
         })
-        this.getRooms();
     }
     changeCheckout(event) {
         this.setState({
             checkout: event.target.value
+        }, () =>{
+            this.getRooms();
         })
-        this.getRooms();
     }
     changeDecor(event) {
         this.setState({
             decor: event.target.value
+        }, () =>{
+            this.getRooms();
         })
-        this.getRooms();
     }
     changeOccupants(event) {
         this.setState({
             occupants: event.target.value
+        }, () =>{
+            this.getRooms();
         })
-        this.getRooms();
     }
     changeType(event) {
         this.setState({
             type: event.target.value
+        }, () =>{
+            this.getRooms();
         })
-        this.getRooms();
     }
+
 
     render ()
     {
