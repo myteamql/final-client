@@ -207,7 +207,7 @@ export default class BookRoom extends React.Component {
                 {this.state.rooms.map((room, index) =>
                     <li key={index}>
                         <p>{room.roomNumber}</p>
-                        <p>{room.maxOccupant}</p>
+                        <p>{room.maxOccupants}</p>
                         <p>{room.type}</p>
                         <p>{room.decor}</p>
                         <p>{room.price}</p>
