@@ -11,6 +11,7 @@ import 'rc-slider/assets/index.css';
 import axios from "axios";
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
+import RoomCard from './RoomCard';
 
 export default class BookRoom extends React.Component {
     constructor(props, context) {
@@ -253,17 +254,18 @@ export default class BookRoom extends React.Component {
                 </Button>
 
                 {this.state.rooms.map((room, index) =>
-                    <li key={index}>
-                        <p>{room.roomNumber}</p>
-                        <p>{room.maxOccupants}</p>
-                        <p>{room.type}</p>
-                        <p>{room.decor}</p>
-                        <p>{room.price}</p>
-                        <p>{room.beds}</p>
-                        <p>{room.length}</p>
-                        <p>{room.popularity}</p>
-                        <p><img src={room.pictureurl}/></p>
-                    </li>
+                    <RoomCard key={index}
+                        roomNumber={room.roomNumber}
+                        maxOccupants={room.maxOccupants}
+                        type={room.type}
+                        decor={room.decor}
+                        price={room.price}
+                        beds={room.beds}
+                        length={room.length}
+                        popularity={room.popularity}
+                        nextAvailable={room.nextAvailable}
+                        pic={room.pictureurl}
+                    />
                 )}
 
             </div>
