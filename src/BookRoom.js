@@ -9,6 +9,8 @@ import TextField from '@material-ui/core/TextField';
 import Slider, { Range } from 'rc-slider';
 import 'rc-slider/assets/index.css';
 import axios from "axios";
+import Button from '@material-ui/core/Button';
+import Grid from '@material-ui/core/Grid';
 
 export default class BookRoom extends React.Component {
     constructor(props, context) {
@@ -30,9 +32,26 @@ export default class BookRoom extends React.Component {
         this.changeType = this.changeType.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.getRooms = this.getRooms.bind(this);
+        this.getAllRooms = this.getAllRooms.bind(this);
     }
     componentWillMount() {
         this.getRooms();
+    }
+
+    getAllRooms() {
+        let url = "http://localhost:8080/rooms";
+        console.log(url);
+        axios
+            .get(url)
+            .then((response) => {
+                const rooms = response.data
+                this.setState({
+                    rooms
+                });
+            })
+            .catch(() => {
+
+            })
     }
 
     getRooms() {
@@ -102,14 +121,24 @@ export default class BookRoom extends React.Component {
             this.getRooms();
         })
     }
+    changeToAllRooms(event) {
+        this.setState({
+            type: event.target.value
+        }, () =>{
+            this.getAllRooms();
+        })
+    }
 
 
     render ()
     {
         const { sliderValues } = this.state;
+
         console.log(this.state.rooms)
         return (
             <div>
+                <Grid container spacing={8} justify="center" direction={"row"}>
+                    <Grid item>
                 <form noValidate>
                     <TextField
                         id="date"
@@ -122,6 +151,8 @@ export default class BookRoom extends React.Component {
                         }}
                     />
                 </form>
+                    </Grid>
+                    <Grid item>
                 <form noValidate>
                     <TextField
                         id="date"
@@ -134,6 +165,8 @@ export default class BookRoom extends React.Component {
                         }}
                     />
                 </form>
+                    </Grid>
+                    <Grid item>
                 <form autoComplete="off">
                     <FormControl>
                         <InputLabel htmlFor="type-helper">Type</InputLabel>
@@ -153,6 +186,8 @@ export default class BookRoom extends React.Component {
                         <FormHelperText>Bed type</FormHelperText>
                     </FormControl>
                 </form>
+                    </Grid>
+                    <Grid item>
                 <form autoComplete="off">
                     <FormControl>
                         <InputLabel htmlFor="decor-helper">Decor</InputLabel>
@@ -173,6 +208,10 @@ export default class BookRoom extends React.Component {
                         </Select>
                         <FormHelperText>Room decor</FormHelperText>
                     </FormControl>
+                </form>
+                    </Grid>
+                    <Grid item>
+                    <form autoComplete="off">
                         <FormControl>
                             <InputLabel htmlFor="occupants-helper">Occupants</InputLabel>
                             <Select
@@ -194,6 +233,10 @@ export default class BookRoom extends React.Component {
                         </FormControl>
 
                 </form>
+                    </Grid>
+
+                </Grid>
+
                     <div style={{ margin: 100 }}>
                         ${sliderValues[0]} - ${sliderValues[1]}
                         <Range
@@ -203,7 +246,12 @@ export default class BookRoom extends React.Component {
                             defaultValue={sliderValues}
                             tipFormatter={value => <span className="tooltip">{value}€</span>}
                         />
+
                     </div>
+                <Button variant="contained" onClick={this.getAllRooms} >
+                    All Rooms
+                </Button>
+
                 {this.state.rooms.map((room, index) =>
                     <li key={index}>
                         <p>{room.roomNumber}</p>
@@ -214,9 +262,10 @@ export default class BookRoom extends React.Component {
                         <p>{room.beds}</p>
                         <p>{room.length}</p>
                         <p>{room.popularity}</p>
-                        <p>{room.pictureurl}</p>
+                        <p><img src={room.pictureurl}/></p>
                     </li>
                 )}
+
             </div>
         );
     }
