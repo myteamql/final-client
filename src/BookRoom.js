@@ -32,9 +32,26 @@ export default class BookRoom extends React.Component {
         this.changeType = this.changeType.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.getRooms = this.getRooms.bind(this);
+        this.getAllRooms = this.getAllRooms.bind(this);
     }
     componentWillMount() {
         this.getRooms();
+    }
+
+    getAllRooms() {
+        let url = "http://localhost:8080/rooms";
+        console.log(url);
+        axios
+            .get(url)
+            .then((response) => {
+                const rooms = response.data
+                this.setState({
+                    rooms
+                });
+            })
+            .catch(() => {
+
+            })
     }
 
     getRooms() {
@@ -102,6 +119,13 @@ export default class BookRoom extends React.Component {
             type: event.target.value
         }, () =>{
             this.getRooms();
+        })
+    }
+    changeToAllRooms(event) {
+        this.setState({
+            type: event.target.value
+        }, () =>{
+            this.getAllRooms();
         })
     }
 
@@ -224,7 +248,7 @@ export default class BookRoom extends React.Component {
                         />
 
                     </div>
-                <Button variant="contained">
+                <Button variant="contained" onClick={this.getAllRooms} >
                     All Rooms
                 </Button>
 
@@ -238,7 +262,7 @@ export default class BookRoom extends React.Component {
                         <p>{room.beds}</p>
                         <p>{room.length}</p>
                         <p>{room.popularity}</p>
-                        <p>{room.pictureurl}</p>
+                        <p><img src={room.pictureurl}/></p>
                     </li>
                 )}
 
