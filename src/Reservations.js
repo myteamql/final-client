@@ -5,13 +5,11 @@ import MenuItem from '@material-ui/core/MenuItem';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
-import TextField from '@material-ui/core/TextField';
-import Slider, { Range } from 'rc-slider';
 import 'rc-slider/assets/index.css';
 import axios from "axios";
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
-import RoomCard from './RoomCard';
+import ReservationCard from './ReservationCard';
 
 export default class UserReservations extends React.Component {
     constructor(props, context) {
@@ -19,17 +17,12 @@ export default class UserReservations extends React.Component {
         this.state = {
             firstname: 'null',
             lastname: 'null',
-            rooms: [],
-            checkin: new Date(),
-            checkout: new Date(),
-            decor: 'null',
-            occupants: -1,
-            type: 'null'
+            reservations: []
         };
 
         this.changeFirstname = this.changeFirstname.bind(this);
         this.changeLastname = this.changeLastname.bind(this);
-        this.getUserReservations = this.getRooms.bind(this);
+        this.getUserReservations = this.getUserReservations.bind(this);
     }
 
     changeFirstname(event) {
@@ -54,9 +47,9 @@ export default class UserReservations extends React.Component {
         axios
             .get(url)
             .then((response) => {
-                const rooms = response.data
+                const reservations = response.data
                 this.setState({
-                    rooms
+                    reservations
                 });
             })
             .catch(() => {
@@ -70,7 +63,6 @@ export default class UserReservations extends React.Component {
                 <div>
                     <Input
                         placeholder="First Name"
-                        className={classes.input}
                         inputProps={{
                             'aria-label': 'Description',
                         }}
@@ -78,7 +70,6 @@ export default class UserReservations extends React.Component {
                     />
                     <Input
                         placeholder="Last Name"
-                        className={classes.input}
                         inputProps={{
                             'aria-label': 'Description',
                         }}
@@ -86,9 +77,21 @@ export default class UserReservations extends React.Component {
                     />
                 </div>
                 <div>
-                    <Button variant="contained" className={classes.button} onClick={this.getUserReservations}>
+                    <Button variant="contained"  onClick={this.getUserReservations}>
                         View All Reservations
                     </Button>
+                </div>
+                <div>
+                    {this.state.reservations.map((reservation, index) =>
+                        <ReservationCard key={index}
+                                  roomNumber={reservation.roomNumber}
+                                  adults={reservation.adults}
+                                  kids={reservation.kids}
+                                  checkin={reservation.checkin}
+                                  checkout={reservation.checkout}
+                                  canceled={reservation.canceled}
+                        />
+                    )}
                 </div>
             </div>
         );
