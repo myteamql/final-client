@@ -3,6 +3,7 @@ import './App.css';
 import axios from 'axios';
 import PersistentDrawerLeft from './PersistentDrawerLeft.js';
 import BookRoom from './BookRoom';
+import UserReservations from './Reservations'
 
 export default class App extends React.Component {
   constructor(props, context) {
