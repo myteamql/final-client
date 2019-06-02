@@ -35,7 +35,7 @@ function RoomCard(props) {
     return (
         <div className={classes.root}>
             <Paper className={classes.paper}>
-                <Grid container spacing={2}>
+                <Grid container spacing={8}>
                     <Grid item>
                         <ButtonBase className={classes.image}>
                             <img className={classes.img} alt="complex" src={props.pic} />

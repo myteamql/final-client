@@ -17,7 +17,10 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import InboxIcon from '@material-ui/icons/MoveToInbox';
-import MailIcon from '@material-ui/icons/Mail';
+import { NavLink, Route } from 'react-router-dom';
+import BookRoom from './BookRoom';
+import Reservations from './Reservations';
+import OwnerHome from './OwnerHome';
 
 const drawerWidth = 240;
 
@@ -94,6 +97,7 @@ class PersistentDrawerLeft extends React.Component {
     render() {
         const { classes, theme } = this.props;
         const { open } = this.state;
+        const hello = "hello"
 
         return (
             <div className={classes.root}>
@@ -134,13 +138,24 @@ class PersistentDrawerLeft extends React.Component {
                     </div>
                     <Divider />
                     <List>
-                        {['Book Room', 'Bookings', 'Owner'].map((text, index) => (
-                            <ListItem button key={text}>
-                                <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-                                <ListItemText primary={text} />
+                        <NavLink exact to="/bookroom">
+                            <ListItem button>
+                                <ListItemIcon><InboxIcon /></ListItemIcon>
+                                <ListItemText primary={"Book Room"} />
                             </ListItem>
-                        ))}
-                        
+                        </NavLink>
+                        <NavLink exact to="/reservations">
+                            <ListItem button>
+                                <ListItemIcon><InboxIcon /></ListItemIcon>
+                                <ListItemText primary={"Reservations"} />
+                            </ListItem>
+                        </NavLink>
+                        <NavLink exact to="/owner">
+                            <ListItem button>
+                                <ListItemIcon><InboxIcon /></ListItemIcon>
+                                <ListItemText primary={"Owner"} />
+                            </ListItem>
+                        </NavLink>
                     </List>
 
                 </Drawer>
@@ -150,9 +165,11 @@ class PersistentDrawerLeft extends React.Component {
                     })}
                 >
                     <div className={classes.drawerHeader} />
-                    <Typography paragraph>
-                        Welcome!
-                    </Typography>
+                        <div className="content">
+                            <Route exact path="/bookroom" component={BookRoom} />
+                            <Route exact path="/reservations" component={Reservations} />
+                            <Route exact path="/owner" component={OwnerHome} />
+                        </div>
                 </main>
             </div>
         );
