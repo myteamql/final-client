@@ -2,17 +2,16 @@ import React from 'react';
 import './App.css';
 import axios from 'axios';
 import PersistentDrawerLeft from './PersistentDrawerLeft.js';
-import BookRoom from './BookRoom';
-import UserReservations from './Reservations'
+import {BrowserRouter} from 'react-router-dom';
 
 export default class App extends React.Component {
   constructor(props, context) {
     super(props, context);
     this.state = {
-      message: ''
+        message: ''
     };
 
-    this.getMessages = this.getMessages.bind(this)
+    this.getMessages = this.getMessages.bind(this);
   }
 
   getMessages() {
@@ -31,11 +30,11 @@ export default class App extends React.Component {
     this.getMessages();
   }
   render () {
-
     return (
       <div className="App">
-          <PersistentDrawerLeft/>
-          <BookRoom/>
+          <BrowserRouter>
+          <PersistentDrawerLeft changePage = {this.changePage}/>
+          </BrowserRouter>
       </div>
     );
   }
