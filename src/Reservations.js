@@ -28,21 +28,17 @@ export default class UserReservations extends React.Component {
     changeFirstname(event) {
         this.setState({
             firstname: event.target.value
-        }, () =>{
-            this.getUserReservations();
-        })
+        });
     }
 
     changeLastname(event) {
         this.setState({
             lastname: event.target.value
-        }, () =>{
-            this.getUserReservations();
-        })
+        });
     }
 
     getUserReservations() {
-        let url = "http://localhost:8080/reservations" + this.firstname + "/" + this.lastname;
+        let url = "http://localhost:8080/reservations/" + this.state.firstname + "/" + this.state.lastname;
         console.log(url);
         axios
             .get(url)
@@ -84,11 +80,11 @@ export default class UserReservations extends React.Component {
                 <div>
                     {this.state.reservations.map((reservation, index) =>
                         <ReservationCard key={index}
-                                  roomNumber={reservation.roomNumber}
+                                  roomNumber={reservation.room}
                                   adults={reservation.adults}
                                   kids={reservation.kids}
-                                  checkin={reservation.checkin}
-                                  checkout={reservation.checkout}
+                                  checkin={reservation.checkIn}
+                                  checkout={reservation.checkOut}
                                   canceled={reservation.canceled}
                         />
                     )}
