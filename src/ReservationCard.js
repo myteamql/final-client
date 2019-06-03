@@ -5,6 +5,8 @@ import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import ButtonBase from '@material-ui/core/ButtonBase';
+import Button from '@material-ui/core/Button';
+import axios from "axios";
 
 const styles = theme => ({
     root: {
@@ -29,7 +31,11 @@ const styles = theme => ({
     },
 });
 
+
+
 function ReservationCard(props) {
+
+
     const { classes } = props;
     return (
         <div className={classes.root}>
@@ -61,6 +67,12 @@ function ReservationCard(props) {
                                 <Typography variant="body2" color="textSecondary">
                                     Cancelled? {props.canceled ? "True" : "False"}
                                 </Typography>
+                                <Button variant="contained" style={{margin: "10px"}}>
+                                    Cancel Reservation
+                                </Button>
+                                <Button variant="contained">
+                                    Change Reservation
+                                </Button>
                             </Grid>
                         </Grid>
                     </Grid>
