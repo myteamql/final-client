@@ -74,6 +74,9 @@ export default class UserReservations extends React.Component {
                 <div>
                     {this.state.reservations.map((reservation, index) =>
                         <ReservationCard key={index}
+                                  firstname={reservation.firstName}
+                                  lastname={reservation.lastName}
+                                  code={reservation.code}
                                   roomNumber={reservation.room}
                                   adults={reservation.adults}
                                   kids={reservation.kids}

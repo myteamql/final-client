@@ -56,6 +56,7 @@ class RoomCard extends React.Component{
         this.changeCreditCard = this.changeCreditCard.bind(this);
     }
 
+
     postReservation() {
         let url = "http://localhost:8080/reservation";
         console.log(url);
