@@ -7,6 +7,8 @@ import Typography from '@material-ui/core/Typography';
 import ButtonBase from '@material-ui/core/ButtonBase';
 import Button from '@material-ui/core/Button';
 import axios from "axios";
+import Modal from "@material-ui/core/Modal";
+import TextField from "@material-ui/core/TextField";
 
 const styles = theme => ({
     root: {
@@ -37,10 +39,20 @@ class ReservationCard extends React.Component{
     constructor(props) {
         super(props);
         this.state = {
-            canceled: this.props.canceled
+            canceled: this.props.canceled,
+            openModal: false,
+            openModalChange: false,
+            openModalAfterChange: false,
+            checkin: this.props.checkin,
+            checkout: this.props.checkout,
+            room: this.props.roomNumber
         }
         this.cancelReservation = this.cancelReservation.bind(this);
+        this.putReservation = this.putReservation.bind(this);
         this.changeCanceled = this.changeCanceled.bind(this);
+        this.changeCheckin = this.changeCheckin.bind(this);
+        this.changeCheckout = this.changeCheckout.bind(this);
+        this.changeRoom = this.changeRoom.bind(this);
     }
 
     cancelReservation() {
@@ -59,6 +71,39 @@ class ReservationCard extends React.Component{
             })
     }
 
+    putReservation() {
+        let url = "http://localhost:8080/reservation/" + this.props.code + "/" + this.state.checkin + "/" +
+            this.state.checkout + "/" + this.state.room;
+        console.log(url);
+        axios
+            .put(url)
+            .then((response) => {
+                const changed = response.data
+            })
+            .catch(() => {
+
+            })
+    }
+    changeCheckin(event) {
+        this.setState({
+            checkin: event.target.value
+        }, ()=> {
+            console.log("changed check in")
+        })
+    }
+    changeCheckout(event) {
+        this.setState({
+            checkout: event.target.value
+        })
+    }
+    changeRoom(event) {
+        this.setState({
+            room: event.target.value
+        }, ()=> {
+            console.log("changed room")
+        })
+    }
+
 
     changeCanceled(event) {
         this.setState({
@@ -68,6 +113,46 @@ class ReservationCard extends React.Component{
             console.log("set state");
         })
     }
+    handleOpenModal = () => {
+        this.setState({openModal: true},
+            () => {
+                this.cancelReservation();
+            });
+    };
+
+    handleCloseModal = () => {
+        this.setState({openModal: false},
+            () => {
+
+        });
+    };
+    handleOpenModalChange = () => {
+        this.setState({openModalChange: true},
+            () => {
+
+            });
+    };
+
+    handleCloseModalChange = () => {
+        this.setState({openModalChange: false},
+            () => {
+
+            });
+    };
+    handleOpenModalAfterChange = () => {
+        this.setState({openModalAfterChange: true},
+            () => {
+                this.handleCloseModalChange()
+                this.putReservation()
+            });
+    };
+
+    handleCloseModalAfterChange = () => {
+        this.setState({openModalAfterChange: false},
+            () => {
+
+            });
+    };
 
     render() {
         const {classes} = this.props;
@@ -84,7 +169,7 @@ class ReservationCard extends React.Component{
                             <Grid item xs container direction="column" spacing={8}>
                                 <Grid item xs>
                                     <Typography gutterBottom variant="h5">
-                                        Room {this.props.roomNumber}
+                                        Room {this.state.room}
                                     </Typography>
                                     <Typography variant="body2" gutterBottom>
                                         {this.props.adults} Adults
@@ -93,28 +178,27 @@ class ReservationCard extends React.Component{
                                         {this.props.kids} Kids
                                     </Typography>
                                     <Typography variant="body2" gutterBottom>
-                                        Check In: {this.props.checkin}
+                                        Check In: {this.state.checkin}
                                     </Typography>
                                     <Typography variant="body2" gutterBottom>
-                                        Check Out: {this.props.checkout}
+                                        Check Out: {this.state.checkout}
                                     </Typography>
                                     <Typography variant="body2" color="textSecondary">
-                                        Cancelled? {this.props.canceled ? "True" : "False"}
+                                        Cancelled? {this.state.canceled ? "True" : "False"}
                                     </Typography>
-                                    {this.props.canceled ?
+                                    {this.state.canceled ?
                                         <Button variant="contained"
                                                 disabled
-                                                style={{margin: "10px"}}
-                                                onClick={this.changeCanceled}>
+                                                style={{margin: "10px"}}>
                                             Cancel Reservation
                                         </Button> :
                                         <Button variant="contained"
                                                 style={{margin: "10px"}}
-                                                onClick={this.changeCanceled}>
+                                                onClick={this.handleOpenModal}>
                                             Cancel Reservation
                                         </Button>
                                     }
-                                    <Button variant="contained">
+                                    <Button variant="contained" onClick={this.handleOpenModalChange}>
                                         Change Reservation
                                     </Button>
                                 </Grid>
@@ -122,6 +206,146 @@ class ReservationCard extends React.Component{
                         </Grid>
                     </Grid>
                 </Paper>
+                <Modal
+                    aria-labelledby="simple-modal-title"
+                    aria-describedby="simple-modal-description"
+                    open={this.state.openModal}
+                    onClose={this.handleCloseModal}
+                >
+
+                    <Grid container spacing={0} alignItems="center" justify="space-evenly"
+                          style={{minHeight: '100vh'}}>
+                        <Paper style={{minWidth: '500px'}}>
+                            <div className={classes.paper}>
+                                <Typography variant="h5" id="modal-title">
+                                    Reservation Canceled
+                                </Typography>
+                                <Typography gutterBottom variant="h5">
+                                    Room {this.state.room}
+                                </Typography>
+                                <Typography variant="body2" gutterBottom>
+                                    {this.props.adults} Adults
+                                </Typography>
+                                <Typography variant="body2" gutterBottom>
+                                    {this.props.kids} Kids
+                                </Typography>
+                                <Typography variant="body2" gutterBottom>
+                                    Check In: {this.state.checkin}
+                                </Typography>
+                                <Typography variant="body2" gutterBottom>
+                                    Check Out: {this.state.checkout}
+                                </Typography>
+                                <Grid container spacing={0} direction="row" alignItems="center"
+                                      justify="center">
+                                    <Button size="medium" color="primary" className={classes.margin}
+                                            onClick={this.handleCloseModal}>
+                                        OK
+                                    </Button>
+
+                                </Grid>
+                            </div>
+                        </Paper>
+                    </Grid>
+                </Modal>
+                <Modal
+                    aria-labelledby="simple-modal-title"
+                    aria-describedby="simple-modal-description"
+                    open={this.state.openModalChange}
+                    onClose={this.handleCloseModalChange}
+                >
+
+                    <Grid container spacing={0} alignItems="center" justify="space-evenly"
+                          style={{minHeight: '100vh'}}>
+                        <Paper>
+                            <div className={classes.paper}>
+                                <Typography variant="h6" id="modal-title">
+                                    Please fill out this information to change your reservation.
+                                </Typography>
+                                <form className={classes.container} noValidate autoComplete="off">
+                                    <TextField
+                                        id="outlined-name"
+                                        label="Room"
+                                        className={classes.textField}
+                                        margin="normal"
+                                        variant="outlined"
+                                        value={this.state.room}
+                                        onChange={this.changeRoom}
+                                    />
+                                </form>
+                                <form noValidate>
+                                    <TextField
+                                        id="date"
+                                        label="Check In"
+                                        type="date"
+                                        value={this.state.checkin}
+                                        onChange={this.changeCheckin}
+                                        InputLabelProps={{
+                                            shrink: true,
+                                        }}
+                                    />
+                                </form>
+                                <form noValidate>
+                                    <TextField
+                                        id="date"
+                                        label="Check Out"
+                                        type="date"
+                                        value={this.state.checkout}
+                                        onChange={this.changeCheckout}
+                                        InputLabelProps={{
+                                            shrink: true,
+                                        }}
+                                    />
+                                </form>
+                                <Grid container spacing={0} direction="row" alignItems="center"
+                                      justify="center">
+                                    <Button size="medium" color="primary" className={classes.margin}
+                                            onClick={this.handleCloseModalChange}>
+                                        Cancel
+                                    </Button>
+                                    <Button size="medium" color="primary" className={classes.margin}
+                                            onClick={this.handleOpenModalAfterChange}>
+                                        Change Reservation
+                                    </Button>
+                                </Grid>
+                            </div>
+                        </Paper>
+                    </Grid>
+                </Modal>
+                <Modal
+                    aria-labelledby="simple-modal-title"
+                    aria-describedby="simple-modal-description"
+                    open={this.state.openModalAfterChange}
+                    onClose={this.handleCloseModalAfterChange}
+                >
+
+                    <Grid container spacing={0} alignItems="center" justify="space-evenly"
+                          style={{minHeight: '100vh'}}>
+                        <Paper style={{minWidth: '500px'}}>
+                            <div className={classes.paper}>
+                                <Typography variant="h5" id="modal-title">
+                                    Reservation changed
+                                </Typography>
+                                <Typography gutterBottom variant="h5">
+                                    Room {this.state.room}
+                                </Typography>
+                                <Typography variant="body2" gutterBottom>
+                                    Check In: {this.state.checkin}
+                                </Typography>
+                                <Typography variant="body2" gutterBottom>
+                                    Check Out: {this.state.checkout}
+                                </Typography>
+                                <Grid container spacing={0} direction="row" alignItems="center"
+                                      justify="center">
+                                    <Button size="medium" color="primary" className={classes.margin}
+                                            onClick={this.handleCloseModalAfterChange}>
+                                        OK
+                                    </Button>
+
+                                </Grid>
+                            </div>
+                        </Paper>
+                    </Grid>
+                </Modal>
             </div>
         );
     }
