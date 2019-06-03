@@ -101,11 +101,19 @@ class ReservationCard extends React.Component{
                                     <Typography variant="body2" color="textSecondary">
                                         Cancelled? {this.props.canceled ? "True" : "False"}
                                     </Typography>
-                                    <Button variant="contained"
-                                            style={{margin: "10px"}}
-                                            onClick={this.changeCanceled}>
-                                        Cancel Reservation
-                                    </Button>
+                                    {this.props.canceled ?
+                                        <Button variant="contained"
+                                                disabled
+                                                style={{margin: "10px"}}
+                                                onClick={this.changeCanceled}>
+                                            Cancel Reservation
+                                        </Button> :
+                                        <Button variant="contained"
+                                                style={{margin: "10px"}}
+                                                onClick={this.changeCanceled}>
+                                            Cancel Reservation
+                                        </Button>
+                                    }
                                     <Button variant="contained">
                                         Change Reservation
                                     </Button>
