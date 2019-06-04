@@ -33,8 +33,6 @@ const styles = theme => ({
     },
 });
 
-
-
 class ReservationCard extends React.Component{
     constructor(props) {
         super(props);
@@ -43,6 +41,7 @@ class ReservationCard extends React.Component{
             openModal: false,
             openModalChange: false,
             openModalAfterChange: false,
+            openModalBadRes: false,
             checkin: this.props.checkin,
             checkout: this.props.checkout,
             room: this.props.roomNumber
@@ -53,6 +52,16 @@ class ReservationCard extends React.Component{
         this.changeCheckin = this.changeCheckin.bind(this);
         this.changeCheckout = this.changeCheckout.bind(this);
         this.changeRoom = this.changeRoom.bind(this);
+        this.handleOpenModal = this.handleOpenModal.bind(this);
+        this.handleCloseModal = this.handleCloseModal.bind(this);
+        this.handleOpenModalChange = this.handleOpenModalChange.bind(this);
+        this.handleCloseModalChange = this.handleCloseModalChange.bind(this);
+        this.handleOpenModalAfterChange = this.handleOpenModalAfterChange.bind(this);
+        this.handleCloseModalAfterChange = this.handleCloseModalAfterChange.bind(this);
+        this.handleOpenModalBadRes = this.handleOpenModalBadRes.bind(this);
+        this.handleCloseModalBadRes = this.handleCloseModalBadRes.bind(this);
+        this.handleCloseModalChangeReserve = this.handleCloseModalChangeReserve.bind(this);
+
     }
 
     cancelReservation() {
@@ -79,9 +88,20 @@ class ReservationCard extends React.Component{
             .put(url)
             .then((response) => {
                 const changed = response.data
+                console.log(response.data.stringify());
+                if(response.data != "") {
+                    console.log("here");
+                    this.handleCloseModalChange();
+                    this.handleOpenModalAfterChange();
+                }else{
+                    this.handleOpenModalBadRes();
+                    console.log("bad reservation");
+                }
             })
             .catch(() => {
-
+                this.handleOpenModalBadRes();
+                console.log()
+                console.log("catch");
             })
     }
     changeCheckin(event) {
@@ -139,11 +159,16 @@ class ReservationCard extends React.Component{
 
             });
     };
+    handleCloseModalChangeReserve = () => {
+        this.setState({openModalChange: false},
+            () => {
+                this.putReservation();
+            });
+    };
     handleOpenModalAfterChange = () => {
         this.setState({openModalAfterChange: true},
             () => {
-                this.handleCloseModalChange()
-                this.putReservation()
+
             });
     };
 
@@ -153,6 +178,23 @@ class ReservationCard extends React.Component{
 
             });
     };
+
+    handleCloseModalBadRes = () => {
+        this.setState({openModalBadRes: false, checkin: this.props.checkin,
+            checkout: this.props.checkout, room: this.props.roomNumber},
+            () => {
+
+
+            });
+    };
+
+    handleOpenModalBadRes = () => {
+        this.setState({openModalBadRes: true},
+            () => {
+
+            });
+    };
+
 
     render() {
         const {classes} = this.props;
@@ -303,7 +345,7 @@ class ReservationCard extends React.Component{
                                         Cancel
                                     </Button>
                                     <Button size="medium" color="primary" className={classes.margin}
-                                            onClick={this.handleOpenModalAfterChange}>
+                                            onClick={this.putReservation}>
                                         Change Reservation
                                     </Button>
                                 </Grid>
@@ -338,6 +380,32 @@ class ReservationCard extends React.Component{
                                       justify="center">
                                     <Button size="medium" color="primary" className={classes.margin}
                                             onClick={this.handleCloseModalAfterChange}>
+                                        OK
+                                    </Button>
+
+                                </Grid>
+                            </div>
+                        </Paper>
+                    </Grid>
+                </Modal>
+                <Modal
+                    aria-labelledby="simple-modal-title"
+                    aria-describedby="simple-modal-description"
+                    open={this.state.openModalBadRes}
+                    onClose={this.handleCloseModalBadRes}
+                >
+
+                    <Grid container spacing={0} alignItems="center" justify="space-evenly"
+                          style={{minHeight: '100vh'}}>
+                        <Paper style={{minWidth: '500px'}}>
+                            <div className={classes.paper}>
+                                <Typography variant="h5" id="modal-title">
+                                    Error: That room is already booked on those dates
+                                </Typography>
+                                <Grid container spacing={0} direction="row" alignItems="center"
+                                      justify="center">
+                                    <Button size="medium" color="primary" className={classes.margin}
+                                            onClick={this.handleCloseModalBadRes}>
                                         OK
                                     </Button>
 
