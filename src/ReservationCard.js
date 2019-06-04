@@ -43,6 +43,7 @@ class ReservationCard extends React.Component{
             openModal: false,
             openModalChange: false,
             openModalAfterChange: false,
+            openModalBadRes: false,
             checkin: this.props.checkin,
             checkout: this.props.checkout,
             room: this.props.roomNumber
@@ -79,8 +80,16 @@ class ReservationCard extends React.Component{
             .put(url)
             .then((response) => {
                 const changed = response.data
+                console.log("then")
+                if(response.data != ""){
+                    this.handleOpenModalAfterChange()
+                }else{
+                    this.handleOpenModalBadRes()
+                }
+
             })
             .catch(() => {
+                console.log("catch")
 
             })
     }
@@ -143,7 +152,6 @@ class ReservationCard extends React.Component{
         this.setState({openModalAfterChange: true},
             () => {
                 this.handleCloseModalChange()
-                this.putReservation()
             });
     };
 
@@ -151,6 +159,20 @@ class ReservationCard extends React.Component{
         this.setState({openModalAfterChange: false},
             () => {
 
+            });
+    };
+    handleCloseModalBadRes = () => {
+        this.setState({openModalBadRes: false, checkin: this.props.checkin,
+                checkout: this.props.checkout, room: this.props.roomNumber},
+            () => {
+
+            });
+    };
+
+    handleOpenModalBadRes = () => {
+        this.setState({openModalBadRes: true},
+            () => {
+                this.handleCloseModalChange()
             });
     };
 
@@ -303,7 +325,7 @@ class ReservationCard extends React.Component{
                                         Cancel
                                     </Button>
                                     <Button size="medium" color="primary" className={classes.margin}
-                                            onClick={this.handleOpenModalAfterChange}>
+                                            onClick={this.putReservation}>
                                         Change Reservation
                                     </Button>
                                 </Grid>
@@ -338,6 +360,32 @@ class ReservationCard extends React.Component{
                                       justify="center">
                                     <Button size="medium" color="primary" className={classes.margin}
                                             onClick={this.handleCloseModalAfterChange}>
+                                        OK
+                                    </Button>
+
+                                </Grid>
+                            </div>
+                        </Paper>
+                    </Grid>
+                </Modal>
+                <Modal
+                    aria-labelledby="simple-modal-title"
+                    aria-describedby="simple-modal-description"
+                    open={this.state.openModalBadRes}
+                    onClose={this.handleCloseModalBadRes}
+                >
+
+                    <Grid container spacing={0} alignItems="center" justify="space-evenly"
+                          style={{minHeight: '100vh'}}>
+                        <Paper style={{minWidth: '500px'}}>
+                            <div className={classes.paper}>
+                                <Typography variant="h5" id="modal-title">
+                                    Error: That room is already booked on those dates
+                                </Typography>
+                                <Grid container spacing={0} direction="row" alignItems="center"
+                                      justify="center">
+                                    <Button size="medium" color="primary" className={classes.margin}
+                                            onClick={this.handleCloseModalBadRes}>
                                         OK
                                     </Button>
 
