@@ -206,7 +206,7 @@ class ReservationCard extends React.Component{
                                         Check Out: {this.state.checkout}
                                     </Typography>
                                     <Typography variant="body2" color="textSecondary">
-                                        Cancelled? {this.state.canceled ? "True" : "False"}
+                                        {this.state.canceled ? "Cancelled" : ""}
                                     </Typography>
                                     {this.state.canceled ?
                                         <Button variant="contained"
@@ -220,9 +220,16 @@ class ReservationCard extends React.Component{
                                             Cancel Reservation
                                         </Button>
                                     }
-                                    <Button variant="contained" onClick={this.handleOpenModalChange}>
-                                        Change Reservation
-                                    </Button>
+                                    {this.state.canceled ?
+                                        <Button variant="contained"
+                                                disabled>
+                                            Change Reservation
+                                        </Button> :
+                                        <Button variant="contained"
+                                                onClick={this.handleOpenModalChange}>
+                                            Change Reservation
+                                        </Button>
+                                    }
                                 </Grid>
                             </Grid>
                         </Grid>
