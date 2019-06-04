@@ -39,6 +39,7 @@ class RoomCard extends React.Component{
         this.state = {
             openModal: false,
             openModal1: false,
+            openModalBadRes: false,
             checkin: null,
             checkout: null,
             first: null,
@@ -78,6 +79,8 @@ class RoomCard extends React.Component{
                     })
                     this.handleCloseModal();
                     this.handleOpenModal1();
+                }else{
+                    this.handleOpenModalBadRes();
                 }
             })
             .catch(() => {
@@ -128,6 +131,20 @@ class RoomCard extends React.Component{
 
     handleCloseModal1 = () => {
         this.setState({openModal1: false});
+    };
+    handleCloseModalBadRes = () => {
+        this.setState({openModalBadRes: false, checkin: this.props.checkin,
+                checkout: this.props.checkout, room: this.props.roomNumber},
+            () => {
+
+            });
+    };
+
+    handleOpenModalBadRes = () => {
+        this.setState({openModalBadRes: true},
+            () => {
+                this.handleCloseModal()
+            });
     };
         render()
         {
@@ -315,6 +332,32 @@ class RoomCard extends React.Component{
                                           justify="center">
                                         <Button size="medium" color="primary" className={classes.margin}
                                                 onClick={this.handleCloseModal1}>
+                                            OK
+                                        </Button>
+
+                                    </Grid>
+                                </div>
+                            </Paper>
+                        </Grid>
+                    </Modal>
+                    <Modal
+                        aria-labelledby="simple-modal-title"
+                        aria-describedby="simple-modal-description"
+                        open={this.state.openModalBadRes}
+                        onClose={this.handleCloseModalBadRes}
+                    >
+
+                        <Grid container spacing={0} alignItems="center" justify="space-evenly"
+                              style={{minHeight: '100vh'}}>
+                            <Paper style={{minWidth: '500px'}}>
+                                <div className={classes.paper}>
+                                    <Typography variant="h5" id="modal-title">
+                                        Error: That room is already booked on those dates
+                                    </Typography>
+                                    <Grid container spacing={0} direction="row" alignItems="center"
+                                          justify="center">
+                                        <Button size="medium" color="primary" className={classes.margin}
+                                                onClick={this.handleCloseModalBadRes}>
                                             OK
                                         </Button>
 
