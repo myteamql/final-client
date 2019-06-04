@@ -46,7 +46,8 @@ class RoomCard extends React.Component{
             last: null,
             numOccupants: null,
             creditCard: null,
-            reservationCode: null
+            reservationCode: null,
+            nextAvailable: this.props.nextAvailable
         };
         this.postReservation = this.postReservation.bind(this);
         this.changeCheckin = this.changeCheckin.bind(this);
@@ -55,6 +56,7 @@ class RoomCard extends React.Component{
         this.changeLast = this.changeLast.bind(this);
         this.changeNumOccupants = this.changeNumOccupants.bind(this);
         this.changeCreditCard = this.changeCreditCard.bind(this);
+        this.getNextAvailable = this.getNextAvailable.bind(this);
     }
 
 
@@ -82,6 +84,23 @@ class RoomCard extends React.Component{
                 }else{
                     this.handleOpenModalBadRes();
                 }
+            })
+            .catch(() => {
+
+            })
+    }
+
+    getNextAvailable() {
+        let url = "http://localhost:8080/reservations/nextavailable/" + this.props.roomNumber;
+        console.log(url);
+        axios
+            .get(url)
+            .then((response) => {
+                this.setState({
+                    nextAvailable: response.data
+                })
+                this.handleOpenModal();
+
             })
             .catch(() => {
 
@@ -119,7 +138,8 @@ class RoomCard extends React.Component{
         })
     }
         handleOpenModal = () => {
-            this.setState({openModal: true});
+            this.setState({openModal: true}, () => {
+            });
         };
 
         handleCloseModal = () => {
@@ -176,14 +196,11 @@ class RoomCard extends React.Component{
                                         <Typography variant="body2" gutterBottom>
                                             Length: {this.props.length} ft
                                         </Typography>
-                                        <Typography variant="body2" color="textSecondary">
-                                            Next Available: {this.props.nextAvailable}
-                                        </Typography>
                                     </Grid>
                                     <Grid item>
                                         <Button variant="contained">
                                             <Typography variant="body2" style={{cursor: 'pointer'}}
-                                                        onClick={this.handleOpenModal}>
+                                                        onClick={this.getNextAvailable}>
                                                 Book Room
                                             </Typography>
                                         </Button>
@@ -209,6 +226,9 @@ class RoomCard extends React.Component{
                             <div className={classes.paper}>
                                 <Typography variant="h6" id="modal-title">
                                     Please fill out this information to complete your reservation.
+                                </Typography>
+                                <Typography variant="body2" color="textSecondary">
+                                    Next Available: {this.state.nextAvailable}
                                 </Typography>
                                 <form className={classes.container} noValidate autoComplete="off">
                                     <TextField
