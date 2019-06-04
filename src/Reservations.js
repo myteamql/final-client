@@ -39,7 +39,7 @@ export default class UserReservations extends React.Component {
             .then((response) => {
                 const reservations = response.data
                 this.setState({
-                    reservations
+                    reservations: reservations
                 });
             })
             .catch(() => {
