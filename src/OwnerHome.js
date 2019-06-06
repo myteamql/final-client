@@ -8,7 +8,8 @@ export default class OwnerHome extends React.Component {
             error: null,
             hasMounted: false,
             entries: [], // list of json{roomNumber, year, month, revenue}
-            yearToRoomToMonthToRevenue: {}
+            yearToRoomToMonthToRevenue: {},
+            months: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
         };
 
         this.initState = this.initState.bind(this);
@@ -70,22 +71,32 @@ export default class OwnerHome extends React.Component {
     }
 
     render () {
-        const {error, hasMounted, yearToRoomToMonthToRevenue} = this.state;
+        const {error, hasMounted, yearToRoomToMonthToRevenue, months} = this.state;
         const newline = <div> &nbsp; </div>;
         const newlineGroup = [newline, newline, newline, newline, newline];
 
         const items = Object.keys(yearToRoomToMonthToRevenue).map(function(year) {
+            var grandTotal = 0;
+            var monthTotals = {};
+            months.map(month => (
+                monthTotals[month] = 0
+            ));
             const yr = <h1 align="center" key={year}>{year}</h1>;
             const roomsStats = Object.keys(yearToRoomToMonthToRevenue[year]).map(function(room) {
                 const header = <h2 align="left">Room #{room}</h2>;
                 var total = 0;
                 Object.keys(yearToRoomToMonthToRevenue[year][room]).map(function(month) {
                     total += yearToRoomToMonthToRevenue[year][room][month];
+                    monthTotals[month] += yearToRoomToMonthToRevenue[year][room][month];
                 });
+                grandTotal += total;
                 return [header, <SimpleTable monthlyRevenue={yearToRoomToMonthToRevenue[year][room]} total={total}/>];
             }
             );
-            return [yr, roomsStats, newlineGroup];
+            const totalsHeader = <h2 align="left">Totals</h2>;
+            const totalsTable = <SimpleTable monthlyRevenue={monthTotals} total={grandTotal}/>;
+            const totals = [totalsHeader, totalsTable]
+            return [yr, roomsStats, totals, newlineGroup];
         });
 
         if (error) {

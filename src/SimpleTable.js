@@ -50,7 +50,7 @@ class SimpleTable extends React.Component {
                                     <TableCell align="center">${this.state.monthlyRevenue[month]}</TableCell> :
                                     <TableCell align="center">$0</TableCell>
                             ))}
-                            <TableCell>{this.state.props.total}</TableCell>
+                            <TableCell>${this.state.props.total}</TableCell>
                         </TableRow>
                     </TableBody>
                 </Table>
