@@ -67,22 +67,23 @@ export default class UserReservations extends React.Component {
                     />
                 </div>
                 <div>
-                    <Button variant="contained"  onClick={this.getUserReservations}>
+                    <Button variant="contained" onClick={this.getUserReservations}>
                         View All Reservations
                     </Button>
                 </div>
                 <div>
                     {this.state.reservations.map((reservation, index) =>
                         <ReservationCard key={index}
-                                  firstname={reservation.firstName}
-                                  lastname={reservation.lastName}
-                                  code={reservation.code}
-                                  roomNumber={reservation.room}
-                                  adults={reservation.adults}
-                                  kids={reservation.kids}
-                                  checkin={reservation.checkIn}
-                                  checkout={reservation.checkOut}
-                                  canceled={reservation.canceled}
+                                         firstname={reservation.firstName}
+                                         lastname={reservation.lastName}
+                                         code={reservation.code}
+                                         roomNumber={reservation.room}
+                                         adults={reservation.adults}
+                                         kids={reservation.kids}
+                                         checkin={reservation.checkIn}
+                                         checkout={reservation.checkOut}
+                                         canceled={reservation.canceled}
+                                         picture={reservation.picture}
                         />
                     )}
                 </div>

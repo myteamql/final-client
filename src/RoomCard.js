@@ -196,6 +196,9 @@ class RoomCard extends React.Component{
                                         <Typography variant="body2" gutterBottom>
                                             Length: {this.props.length} ft
                                         </Typography>
+                                        <Typography variant="body2" gutterBottom>
+                                            Popularity: {this.props.popularity}
+                                        </Typography>
                                     </Grid>
                                     <Grid item>
                                         <Button variant="contained">
