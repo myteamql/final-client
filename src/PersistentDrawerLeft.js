@@ -21,6 +21,7 @@ import { NavLink, Route } from 'react-router-dom';
 import BookRoom from './BookRoom';
 import Reservations from './Reservations';
 import OwnerHome from './OwnerHome';
+import Home from './Home';
 
 const drawerWidth = 240;
 
@@ -169,6 +170,7 @@ class PersistentDrawerLeft extends React.Component {
                             <Route exact path="/bookroom" component={BookRoom} />
                             <Route exact path="/reservations" component={Reservations} />
                             <Route exact path="/owner" component={OwnerHome} />
+                            <Route exact path="/" component={Home} />
                         </div>
                 </main>
             </div>

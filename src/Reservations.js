@@ -56,6 +56,7 @@ export default class UserReservations extends React.Component {
                         inputProps={{
                             'aria-label': 'Description',
                         }}
+                        style={{marginRight: '15px'}}
                         onChange={this.changeFirstname}
                     />
                     <Input
@@ -67,7 +68,7 @@ export default class UserReservations extends React.Component {
                     />
                 </div>
                 <div>
-                    <Button variant="contained" onClick={this.getUserReservations}>
+                    <Button variant="contained" onClick={this.getUserReservations} style={{marginTop: '15px'}}>
                         View All Reservations
                     </Button>
                 </div>
