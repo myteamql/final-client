@@ -184,7 +184,7 @@ class ReservationCard extends React.Component{
                     <Grid container spacing={8}>
                         <Grid item>
                             <ButtonBase className={classes.image}>
-                                <img className={classes.img} alt="complex" src={this.props.pic}/>
+                                <img className={classes.img} alt="complex" src={this.props.picture}/>
                             </ButtonBase>
                         </Grid>
                         <Grid item xs={12} sm container>
