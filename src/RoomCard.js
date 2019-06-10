@@ -61,7 +61,7 @@ class RoomCard extends React.Component{
 
 
     postReservation() {
-        let url = "https://myteamql-back.herokuapp.com/reservation";
+        let url = "http://localhost:8080/reservation";
         console.log(url);
         axios
             .post(url,{
@@ -91,7 +91,7 @@ class RoomCard extends React.Component{
     }
 
     getNextAvailable() {
-        let url = "https://myteamql-back.herokuapp.com/reservations/nextavailable/" + this.props.roomNumber;
+        let url = "http://localhost:8080/reservations/nextavailable/" + this.props.roomNumber;
         console.log(url);
         axios
             .get(url)
