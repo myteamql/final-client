@@ -98,7 +98,6 @@ class PersistentDrawerLeft extends React.Component {
     render() {
         const { classes, theme } = this.props;
         const { open } = this.state;
-        const hello = "hello"
 
         return (
             <div className={classes.root}>
@@ -139,6 +138,12 @@ class PersistentDrawerLeft extends React.Component {
                     </div>
                     <Divider />
                     <List>
+                        <NavLink exact to="/">
+                            <ListItem button>
+                                <ListItemIcon><InboxIcon /></ListItemIcon>
+                                <ListItemText primary={"Home"} />
+                            </ListItem>
+                        </NavLink>
                         <NavLink exact to="/bookroom">
                             <ListItem button>
                                 <ListItemIcon><InboxIcon /></ListItemIcon>
