@@ -57,7 +57,7 @@ class ReservationCard extends React.Component{
     }
 
     cancelReservation() {
-        let url = "https://myteamql-back.herokuapp.com/reservation/cancel/" + this.props.code;
+        let url = "http://localhost:8080/reservation/cancel/" + this.props.code;
         console.log(url);
         axios
             .put(url)
@@ -73,7 +73,7 @@ class ReservationCard extends React.Component{
     }
 
     putReservation() {
-        let url = "https://myteamql-back.herokuapp.com/reservation/" + this.props.code + "/" + this.state.checkin + "/" +
+        let url = "http://localhost:8080/reservation/" + this.props.code + "/" + this.state.checkin + "/" +
             this.state.checkout + "/" + this.state.room;
         console.log(url);
         axios

@@ -24,7 +24,7 @@ export default class OwnerHome extends React.Component {
     }
 
     initState() {
-        let url = "https://myteamql-back.herokuapp.com/revenue";
+        let url = "http://localhost:8080/revenue";
         console.log(url);
         fetch(url)
             .then(res => res.json())

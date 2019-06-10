@@ -32,7 +32,7 @@ export default class UserReservations extends React.Component {
     }
 
     getUserReservations() {
-        let url = "https://myteamql-back.herokuapp.com/reservations/" + this.state.firstname + "/" + this.state.lastname;
+        let url = "http://localhost:8080/reservations/" + this.state.firstname + "/" + this.state.lastname;
         console.log(url);
         axios
             .get(url)
