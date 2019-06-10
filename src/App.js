@@ -11,24 +11,8 @@ export default class App extends React.Component {
         message: ''
     };
 
-    this.getMessages = this.getMessages.bind(this);
   }
 
-  getMessages() {
-    axios
-        .get("http://localhost:8080/test")
-        .then((response) => {
-          this.setState({
-            message: response.data
-          })
-          this.$emit("success");
-        })
-        .catch(() => {
-        });
-  }
-  componentWillMount() {
-    this.getMessages();
-  }
   render () {
     return (
       <div className="App">
