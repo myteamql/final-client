@@ -84,42 +84,42 @@ export default class BookRoom extends React.Component {
 
     handleChange = sliderValues => {
         this.setState({ sliderValues }, () =>{
-            this.getRooms();
+            // this.getRooms();
         })
     };
     changeCheckin(event) {
         this.setState({
             checkin: event.target.value
         }, () =>{
-            this.getRooms();
+            // this.getRooms();
         })
     }
     changeCheckout(event) {
         this.setState({
             checkout: event.target.value
         }, () =>{
-            this.getRooms();
+            // this.getRooms();
         })
     }
     changeDecor(event) {
         this.setState({
             decor: event.target.value
         }, () =>{
-            this.getRooms();
+            // this.getRooms();
         })
     }
     changeOccupants(event) {
         this.setState({
             occupants: event.target.value
         }, () =>{
-            this.getRooms();
+            // this.getRooms();
         })
     }
     changeType(event) {
         this.setState({
             type: event.target.value
         }, () =>{
-            this.getRooms();
+            // this.getRooms();
         })
     }
 
@@ -128,7 +128,6 @@ export default class BookRoom extends React.Component {
     {
         const { sliderValues } = this.state;
 
-        console.log(this.state.rooms)
         return (
             <div>
                 <Grid container spacing={8} justify="center" direction={"row"}>
@@ -225,6 +224,7 @@ export default class BookRoom extends React.Component {
                             </Select>
                             <FormHelperText>Number of occupants</FormHelperText>
                         </FormControl>
+                        <Button onClick={this.getRooms} variant="contained">Search</Button>
 
                 </form>
                     </Grid>
