@@ -40,7 +40,7 @@ export default class BookRoom extends React.Component {
     }
 
     getAllRooms() {
-        let url = "http://localhost:8080/rooms";
+        let url = "https://myteamql-back.herokuapp.com/rooms";
         console.log(url);
         axios
             .get(url)
@@ -66,7 +66,7 @@ export default class BookRoom extends React.Component {
         let floor = this.state.sliderValues[0];
         let ceiling = this.state.sliderValues[1];
 
-        let url = "http://localhost:8080/rooms/"+checkin+"/"+checkout+"/"+occupants+"/"+type+"/"+decor+"/"+floor+"/"+ceiling;
+        let url = "https://myteamql-back.herokuapp.com/rooms/"+checkin+"/"+checkout+"/"+occupants+"/"+type+"/"+decor+"/"+floor+"/"+ceiling;
         console.log(url);
         axios
             .get(url)
