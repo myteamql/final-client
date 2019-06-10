@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
+import {withStyles} from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
@@ -33,7 +33,7 @@ const styles = theme => ({
     },
 });
 
-class RoomCard extends React.Component{
+class RoomCard extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -64,7 +64,7 @@ class RoomCard extends React.Component{
         let url = "http://localhost:8080/reservation";
         console.log(url);
         axios
-            .post(url,{
+            .post(url, {
                 room: this.props.roomNumber,
                 checkIn: this.state.checkin,
                 checkOut: this.state.checkout,
@@ -75,13 +75,13 @@ class RoomCard extends React.Component{
                 crNumber: this.state.creditCard,
             })
             .then((response) => {
-                if(response.data != "") {
+                if (response.data != "") {
                     this.setState({
                         reservationCode: response.data.code
                     })
                     this.handleCloseModal();
                     this.handleOpenModal1();
-                }else{
+                } else {
                     this.handleOpenModalBadRes();
                 }
             })
@@ -92,7 +92,7 @@ class RoomCard extends React.Component{
 
     getNextAvailable() {
         let url = "http://localhost:8080/reservations/nextavailable/" + this.props.roomNumber;
-        console.log(url);
+        console.log(url)
         axios
             .get(url)
             .then((response) => {
@@ -112,39 +112,45 @@ class RoomCard extends React.Component{
             checkin: event.target.value
         })
     }
+
     changeCheckout(event) {
         this.setState({
             checkout: event.target.value
         })
     }
+
     changeFirst(event) {
         this.setState({
             first: event.target.value
         })
     }
+
     changeLast(event) {
         this.setState({
             last: event.target.value
         })
     }
+
     changeNumOccupants(event) {
         this.setState({
             numOccupants: event.target.value
         })
     }
+
     changeCreditCard(event) {
         this.setState({
             creditCard: event.target.value
         })
     }
-        handleOpenModal = () => {
-            this.setState({openModal: true}, () => {
-            });
-        };
 
-        handleCloseModal = () => {
-            this.setState({openModal: false});
-        };
+    handleOpenModal = () => {
+        this.setState({openModal: true}, () => {
+        });
+    };
+
+    handleCloseModal = () => {
+        this.setState({openModal: false});
+    };
     handleOpenModal1 = () => {
         this.setState({openModal1: true});
     };
@@ -153,8 +159,10 @@ class RoomCard extends React.Component{
         this.setState({openModal1: false});
     };
     handleCloseModalBadRes = () => {
-        this.setState({openModalBadRes: false, checkin: this.props.checkin,
-                checkout: this.props.checkout, room: this.props.roomNumber},
+        this.setState({
+                openModalBadRes: false, checkin: this.props.checkin,
+                checkout: this.props.checkout, room: this.props.roomNumber
+            },
             () => {
 
             });
@@ -166,66 +174,65 @@ class RoomCard extends React.Component{
                 this.handleCloseModal()
             });
     };
-        render()
-        {
-            const {classes, theme} = this.props;
-            return (
-                <div className={classes.root}>
-                    <Paper className={classes.paper}>
-                        <Grid container spacing={8}>
-                            <Grid item>
-                                <ButtonBase className={classes.image}>
-                                    <img className={classes.img} alt="complex" src={this.props.pic}/>
-                                </ButtonBase>
-                            </Grid>
-                            <Grid item xs={12} sm container>
-                                <Grid item xs container direction="column" spacing={8}>
-                                    <Grid item xs>
-                                        <Typography gutterBottom variant="h5">
-                                            Room {this.props.roomNumber}
-                                        </Typography>
-                                        <Typography variant="body2" gutterBottom>
-                                            {this.props.beds} {this.props.type} Beds
-                                        </Typography>
-                                        <Typography variant="body2" gutterBottom>
-                                            {this.props.decor} Decor
-                                        </Typography>
-                                        <Typography variant="body2" gutterBottom>
-                                            Max Occupants: {this.props.maxOccupants}
-                                        </Typography>
-                                        <Typography variant="body2" gutterBottom>
-                                            Length: {this.props.length} ft
-                                        </Typography>
-                                        <Typography variant="body2" gutterBottom>
-                                            Popularity: {this.props.popularity}
-                                        </Typography>
-                                    </Grid>
-                                    <Grid item>
-                                        <Button variant="contained">
-                                            <Typography variant="body2" style={{cursor: 'pointer'}}
-                                                        onClick={this.getNextAvailable}>
-                                                Book Room
-                                            </Typography>
-                                        </Button>
-                                    </Grid>
+
+    render() {
+        const {classes, theme} = this.props;
+        return (
+            <div className={classes.root}>
+                <Paper className={classes.paper}>
+                    <Grid container spacing={8}>
+                        <Grid item>
+                            <ButtonBase className={classes.image}>
+                                <img className={classes.img} alt="complex" src={this.props.pic}/>
+                            </ButtonBase>
+                        </Grid>
+                        <Grid item xs={12} sm container>
+                            <Grid item xs container direction="column" spacing={8}>
+                                <Grid item xs>
+                                    <Typography gutterBottom variant="h5">
+                                        Room {this.props.roomNumber}
+                                    </Typography>
+                                    <Typography variant="body2" gutterBottom>
+                                        {this.props.beds} {this.props.type} Beds
+                                    </Typography>
+                                    <Typography variant="body2" gutterBottom>
+                                        {this.props.decor} Decor
+                                    </Typography>
+                                    <Typography variant="body2" gutterBottom>
+                                        Max Occupants: {this.props.maxOccupants}
+                                    </Typography>
+                                    <Typography variant="body2" gutterBottom>
+                                        Length: {this.props.length} ft
+                                    </Typography>
+                                    <Typography variant="body2" gutterBottom>
+                                        Popularity: {this.props.popularity}
+                                    </Typography>
                                 </Grid>
                                 <Grid item>
-                                    <Typography variant="subtitle1">${this.props.price}/night</Typography>
+                                    <Button variant="contained" onClick={this.getNextAvailable}>
+                                        <Typography variant="body2" style={{cursor: 'pointer'}}>
+                                            Book Room
+                                        </Typography>
+                                    </Button>
                                 </Grid>
                             </Grid>
+                            <Grid item>
+                                <Typography variant="subtitle1">${this.props.price}/night</Typography>
+                            </Grid>
                         </Grid>
-                    </Paper>
+                    </Grid>
+                </Paper>
 
-                    <Modal
-                        aria-labelledby="simple-modal-title"
-                        aria-describedby="simple-modal-description"
-                        open={this.state.openModal}
-                        onClose={this.handleCloseModal}
-                    >
+                <Modal
+                    aria-labelledby="simple-modal-title"
+                    aria-describedby="simple-modal-description"
+                    open={this.state.openModal}
+                    onClose={this.handleCloseModal}
+                >
 
-                        <Grid container spacing={0} alignItems="center" justify="space-evenly"
-                              style={{minHeight: '100vh'}}>
-                            <Paper>
+                    <Grid container spacing={0} alignItems="center" justify="space-evenly"
+                          style={{minHeight: '100vh'}}>
+                        <Paper>
                             <div className={classes.paper}>
                                 <Typography variant="h6" id="modal-title">
                                     Please fill out this information to complete your reservation.
@@ -313,84 +320,84 @@ class RoomCard extends React.Component{
                                     </Button>
                                 </Grid>
                             </div>
-                            </Paper>
-                        </Grid>
-                    </Modal>
-                    <Modal
-                        aria-labelledby="simple-modal-title"
-                        aria-describedby="simple-modal-description"
-                        open={this.state.openModal1}
-                        onClose={this.handleCloseModal1}
-                    >
+                        </Paper>
+                    </Grid>
+                </Modal>
+                <Modal
+                    aria-labelledby="simple-modal-title"
+                    aria-describedby="simple-modal-description"
+                    open={this.state.openModal1}
+                    onClose={this.handleCloseModal1}
+                >
 
-                        <Grid container spacing={0} alignItems="center" justify="space-evenly"
-                              style={{minHeight: '100vh'}}>
-                            <Paper style={{minWidth: '500px'}}>
-                                <div className={classes.paper}>
-                                    <Typography variant="h5" id="modal-title">
-                                        Reservation Confirmation
-                                    </Typography>
-                                    <Typography variant="body1" id="modal-title">
-                                        Reservation Code: {this.state.reservationCode}
-                                    </Typography>
-                                    <Typography variant="body1" id="modal-title">
-                                        Name: {this.state.first} {this.state.last}
-                                    </Typography>
-                                    <Typography variant="body1" id="modal-title">
-                                        Room {this.props.roomNumber}
-                                    </Typography>
-                                    <Typography variant="body1" id="modal-title">
-                                        Checkin: {this.state.checkin}
-                                    </Typography>
-                                    <Typography variant="body1" id="modal-title">
-                                        Checkout: {this.state.checkout}
-                                    </Typography>
-                                    <Typography variant="body1" id="modal-title">
-                                        {this.state.numOccupants} Occupants
-                                    </Typography>
+                    <Grid container spacing={0} alignItems="center" justify="space-evenly"
+                          style={{minHeight: '100vh'}}>
+                        <Paper style={{minWidth: '500px'}}>
+                            <div className={classes.paper}>
+                                <Typography variant="h5" id="modal-title">
+                                    Reservation Confirmation
+                                </Typography>
+                                <Typography variant="body1" id="modal-title">
+                                    Reservation Code: {this.state.reservationCode}
+                                </Typography>
+                                <Typography variant="body1" id="modal-title">
+                                    Name: {this.state.first} {this.state.last}
+                                </Typography>
+                                <Typography variant="body1" id="modal-title">
+                                    Room {this.props.roomNumber}
+                                </Typography>
+                                <Typography variant="body1" id="modal-title">
+                                    Checkin: {this.state.checkin}
+                                </Typography>
+                                <Typography variant="body1" id="modal-title">
+                                    Checkout: {this.state.checkout}
+                                </Typography>
+                                <Typography variant="body1" id="modal-title">
+                                    {this.state.numOccupants} Occupants
+                                </Typography>
 
 
+                                <Grid container spacing={0} direction="row" alignItems="center"
+                                      justify="center">
+                                    <Button size="medium" color="primary" className={classes.margin}
+                                            onClick={this.handleCloseModal1}>
+                                        OK
+                                    </Button>
 
-                                    <Grid container spacing={0} direction="row" alignItems="center"
-                                          justify="center">
-                                        <Button size="medium" color="primary" className={classes.margin}
-                                                onClick={this.handleCloseModal1}>
-                                            OK
-                                        </Button>
+                                </Grid>
+                            </div>
+                        </Paper>
+                    </Grid>
+                </Modal>
+                <Modal
+                    aria-labelledby="simple-modal-title"
+                    aria-describedby="simple-modal-description"
+                    open={this.state.openModalBadRes}
+                    onClose={this.handleCloseModalBadRes}
+                >
 
-                                    </Grid>
-                                </div>
-                            </Paper>
-                        </Grid>
-                    </Modal>
-                    <Modal
-                        aria-labelledby="simple-modal-title"
-                        aria-describedby="simple-modal-description"
-                        open={this.state.openModalBadRes}
-                        onClose={this.handleCloseModalBadRes}
-                    >
+                    <Grid container spacing={0} alignItems="center" justify="space-evenly"
+                          style={{minHeight: '100vh'}}>
+                        <Paper style={{minWidth: '500px'}}>
+                            <div className={classes.paper}>
+                                <Typography variant="h5" id="modal-title">
+                                    Error: That room is already booked on those dates
+                                </Typography>
+                                <Grid container spacing={0} direction="row" alignItems="center"
+                                      justify="center">
+                                    <Button size="medium" color="primary" className={classes.margin}
+                                            onClick={this.handleCloseModalBadRes}>
+                                        OK
+                                    </Button>
 
-                        <Grid container spacing={0} alignItems="center" justify="space-evenly"
-                              style={{minHeight: '100vh'}}>
-                            <Paper style={{minWidth: '500px'}}>
-                                <div className={classes.paper}>
-                                    <Typography variant="h5" id="modal-title">
-                                        Error: That room is already booked on those dates
-                                    </Typography>
-                                    <Grid container spacing={0} direction="row" alignItems="center"
-                                          justify="center">
-                                        <Button size="medium" color="primary" className={classes.margin}
-                                                onClick={this.handleCloseModalBadRes}>
-                                            OK
-                                        </Button>
-
-                                    </Grid>
-                                </div>
-                            </Paper>
-                        </Grid>
-                    </Modal>
-                </div>
-            );
-        }
+                                </Grid>
+                            </div>
+                        </Paper>
+                    </Grid>
+                </Modal>
+            </div>
+        );
     }
-export default withStyles(styles, { withTheme: true })(RoomCard);
+}
+
+export default withStyles(styles, {withTheme: true})(RoomCard);
