@@ -81,7 +81,7 @@ class ReservationCard extends React.Component{
             .then((response) => {
                 const changed = response.data
                 console.log("then")
-                if(response.data != ""){
+                if(response.data.code > 0){
                     this.handleOpenModalAfterChange()
                 }else{
                     this.handleOpenModalBadRes()
