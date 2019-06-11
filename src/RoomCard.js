@@ -47,6 +47,7 @@ class RoomCard extends React.Component {
             numOccupants: null,
             creditCard: null,
             reservationCode: null,
+            errorCode: null,
             nextAvailable: this.props.nextAvailable
         };
         this.postReservation = this.postReservation.bind(this);
@@ -75,13 +76,16 @@ class RoomCard extends React.Component {
                 crNumber: this.state.creditCard,
             })
             .then((response) => {
-                if (response.data != "") {
+                if (response.data.code > 0) {
                     this.setState({
                         reservationCode: response.data.code
-                    })
+                    });
                     this.handleCloseModal();
                     this.handleOpenModal1();
                 } else {
+                    this.setState({
+                        errorCode: response.data.code
+                    });
                     this.handleOpenModalBadRes();
                 }
             })
@@ -380,9 +384,26 @@ class RoomCard extends React.Component {
                           style={{minHeight: '100vh'}}>
                         <Paper style={{minWidth: '500px'}}>
                             <div className={classes.paper}>
-                                <Typography variant="h5" id="modal-title">
-                                    Error: That room is already booked on those dates
-                                </Typography>
+                                {
+                                    this.state.errorCode === -1 ?
+                                        <Typography variant="h5" id="modal-title">
+                                            Error: Max occupants exceeded
+                                        </Typography> :
+                                        this.state.errorCode === -2 ?
+                                            <Typography variant="h5" id="modal-title">
+                                                Error: That room is already booked on those dates
+                                            </Typography> :
+                                            this.state.errorCode === -3 ?
+                                            <Typography variant="h5" id="modal-title">
+                                                Error: Invalid credit card number or name
+                                            </Typography> :
+                                                <Typography variant="h5" id="modal-title">
+                                                    Error: Something went wrong
+                                                </Typography>
+                                }
+                                {/*<Typography variant="h5" id="modal-title">*/}
+                                {/*    Error: That room is already booked on those dates*/}
+                                {/*</Typography>*/}
                                 <Grid container spacing={0} direction="row" alignItems="center"
                                       justify="center">
                                     <Button size="medium" color="primary" className={classes.margin}
